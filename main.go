@@ -107,7 +107,7 @@ func initDB() {
 			"func": "initDB",
 		}).Info("Error pinging server", err)
 	}
-	// id SERIAL PRIMARY KEY,
+	// create table
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS urls (
 			original_url TEXT NOT NULL,
