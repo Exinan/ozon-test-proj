@@ -1,17 +1,1 @@
-{"level":"info","main":"starting server","msg":"ESHKERE","time":"2023-12-15T19:27:24+03:00"}
-{"func":"pingHandler","level":"info","msg":"Received ping request.","time":"2023-12-15T19:27:51+03:00"}
-{"func":"initDB","level":"info","msg":"Error pinging server\u003cnil\u003e","time":"2023-12-15T19:33:02+03:00"}
-{"level":"info","main":"opening log file","msg":"File opened successful","time":"2023-12-15T19:34:52+03:00"}
-{"func":"pingHandler","level":"info","msg":"Received ping request.","time":"2023-12-15T19:35:02+03:00"}
-{"level":"info","main":"opening log file","msg":"File opened successful","time":"2023-12-15T19:39:53+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Error inserting into database:ERROR: column \"original\" of relation \"urls\" does not exist (SQLSTATE 42703)","time":"2023-12-15T19:40:05+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Missing 'url' parameter","time":"2023-12-15T19:40:13+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Missing 'url' parameter","time":"2023-12-15T19:40:19+03:00"}
-{"level":"info","main":"opening log file","msg":"File opened successful","time":"2023-12-15T20:55:11+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Missing 'url' parameter","time":"2023-12-15T20:55:17+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Error inserting into database:ERROR: column \"original\" of relation \"urls\" does not exist (SQLSTATE 42703)","time":"2023-12-15T20:55:31+03:00"}
-{"level":"info","main":"opening log file","msg":"File opened successful","time":"2023-12-15T20:57:27+03:00"}
-{"level":"info","msg":"Error inserting into database: ERROR: column \"original\" of relation \"urls\" does not exist (SQLSTATE 42703)","time":"2023-12-15T20:57:59+03:00"}
-{"level":"info","main":"opening log file","msg":"File opened successful","time":"2023-12-15T21:10:30+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Error inserting into database:ERROR: column \"original\" of relation \"urls\" does not exist (SQLSTATE 42703)","time":"2023-12-15T21:10:35+03:00"}
-{"func":"shortenHandler","level":"info","msg":"Error inserting into database:ERROR: column \"original\" of relation \"urls\" does not exist (SQLSTATE 42703)","time":"2023-12-15T21:10:47+03:00"}
+
