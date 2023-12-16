@@ -142,8 +142,20 @@ func shortenHandler(w http.ResponseWriter, r *http.Request) {
 
 	shortURL := generateShortURL(originalURL)
 
+	// Check for unique urls
+	var existingShortURL string
+	errr := db.QueryRow("SELECT short_url FROM urls WHERE original_url = $1", originalURL).Scan(&existingShortURL)
+	if errr == nil {
+		log.WithFields(log.Fields{
+			"func": "shortenHandler",
+		}).Info("Successful found short_url")
+		w.Write([]byte(existingShortURL))
+		return
+	}
+
 	// Save original url and shorten url in db
 	// curl -X POST -d "url=https://www.example.com" http://localhost:7070/shorten
+
 	_, err := db.Exec("INSERT INTO urls (original_url, short_url) VALUES ($1, $2)", originalURL, shortURL)
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -154,6 +166,11 @@ func shortenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//result := "http://short.url/" + shortURL
+
+	log.WithFields(log.Fields{
+		"func": "shortenHandler",
+	}).Info("Successful generated short_url")
+	w.Write([]byte(existingShortURL))
 
 	w.Write([]byte(shortURL))
 }
