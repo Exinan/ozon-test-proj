@@ -85,7 +85,7 @@ func generateShortURL(originalURL string) string {
 
 	shortURLHash := hex.EncodeToString(hashBytes)[:8]
 
-	shortURL := fmt.Sprintf("%s", shortURLHash) // http://short.url/
+	shortURL := shortURLHash // http://short.url/%s
 	return shortURL
 }
 
@@ -107,7 +107,7 @@ func initDB() {
 			"func": "initDB",
 		}).Info("Error pinging server", err)
 	}
-	// create table
+
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS urls (
 			original_url TEXT NOT NULL,
@@ -144,7 +144,7 @@ func shortenHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Save original url and shorten url in db
 	// curl -X POST -d "url=https://www.example.com" http://localhost:7070/shorten
-	_, err := db.Exec("INSERT INTO urls (original, short) VALUES ($1, $2)", originalURL, shortURL)
+	_, err := db.Exec("INSERT INTO urls (original_url, short_url) VALUES ($1, $2)", originalURL, shortURL)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"func": "shortenHandler",
@@ -152,6 +152,8 @@ func shortenHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to save URL to database", http.StatusInternalServerError)
 		return
 	}
+
+	//result := "http://short.url/" + shortURL
 
 	w.Write([]byte(shortURL))
 }
@@ -161,6 +163,24 @@ func GetOriginalURLHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	shortURL := vars["shortURL"]
 
+	// fmt.Println("======================")
+	// fmt.Println(shortURL)
+
+	// substr := "http://short.url/"
+
+	// if strings.Contains(shortURL, substr) {
+	// 	shortURL = strings.Replace(shortURL, substr, "", -1)
+	// } else {
+	// 	w.Write([]byte("Not correct shortURL"))
+	// 	log.WithFields(log.Fields{
+	// 		"func": "GetOriginalURLHandler",
+	// 	}).Info("Not correct shortURL format")
+	// 	return
+	// }
+
+	// fmt.Println(shortURL)
+
+	//curl http://localhost:7070/67d709a6
 	var originalURL string
 	err := db.QueryRow("SELECT original_url FROM urls WHERE short_url = $1", shortURL).Scan(&originalURL)
 	if err != nil {
@@ -174,6 +194,12 @@ func GetOriginalURLHandler(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"func": "GetOriginalURLHandler",
 	}).Info("Original URL successful found")
+
 	// Redirect to original URL
-	http.Redirect(w, r, originalURL, http.StatusMovedPermanently)
+	// w.Header().Set("Location", originalURL)
+	// w.WriteHeader(http.StatusMovedPermanently)
+	// w.Write([]byte("Moved Permanently"))
+
+	// Send original url
+	w.Write([]byte(originalURL))
 }
